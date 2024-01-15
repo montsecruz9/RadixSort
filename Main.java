@@ -6,6 +6,8 @@ public class Main {
 
         int[] radixArray = {4725, 4586, 1330, 8792, 1594, 5729};
 
+        radixSort(radixArray, 10, 4);
+
         for (int i = 0; i < radixArray.length; i++) {
             System.out.println(radixArray[i]);
         }
@@ -32,11 +34,21 @@ public class Main {
             countArray[j] += countArray[j-1];
         }
 
+        //creating temporary array and copy values into that temp array
+        int[] temp = new int[numItems];
+        for(int tempIndex = numItems - 1; tempIndex >= 0; tempIndex--) {
+            temp[--countArray[getDigit(position, input[tempIndex], radix)]] = input[tempIndex];
+        }
+
+        //write back values to the original input array
+        for (int tempIndex = 0; tempIndex < numItems; tempIndex++) {
+            input[tempIndex] = temp[tempIndex];
+        }
 
     }
 
     //getDigit method
-    public static void getDigit(int position, int value, int radix) {
-        return value / (int) Math.pow(10, position) % radix;
+    public static int getDigit(int position, int value, int radix) {
+        return value / (int) Math.pow(radix, position) % radix;
     }
 }
